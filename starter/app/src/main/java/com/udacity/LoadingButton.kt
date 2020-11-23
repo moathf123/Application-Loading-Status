@@ -89,7 +89,6 @@ class LoadingButton @JvmOverloads constructor(
                 true,
                 paint
             )
-
         }
     }
 
