@@ -27,9 +27,10 @@ class MainActivity : AppCompatActivity() {
     private var downloadID: Long = 0
     private lateinit var notificationManager: NotificationManager
     private lateinit var toast: Toast
-    var radioGroup: RadioGroup? = null
-    lateinit var radioButton: RadioButton
+    private var radioGroup: RadioGroup? = null
+    private lateinit var radioButton: RadioButton
     private lateinit var downloadManager: DownloadManager
+    var fileName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,22 +72,27 @@ class MainActivity : AppCompatActivity() {
             context?.let {
                 notificationManager.sendNotification(
                     getString(R.string.notification_description),
-                    it
+                    it, checkStatus(id!!), fileName
                 )
             }
             custom_button.setState(ButtonState.Completed)
-            checkStatus(id!!)
         }
     }
 
     private fun onRadioButtonClicked(view: View) {
-
         when (view.id) {
-            R.id.radioButton_main_glide -> download(URL_glide)
-
-            R.id.radioButton_main_loadApp -> download(URL_loadApp)
-
-            R.id.radioButton_main_retrofit -> download(URL_retrofit)
+            R.id.radioButton_main_glide -> {
+                download(URL_glide)
+                fileName = getString(R.string.glide)
+            }
+            R.id.radioButton_main_loadApp -> {
+                download(URL_loadApp)
+                fileName = getString(R.string.loadapp)
+            }
+            R.id.radioButton_main_retrofit -> {
+                download(URL_retrofit)
+                fileName = getString(R.string.retrofit)
+            }
         }
     }
 
@@ -110,7 +116,6 @@ class MainActivity : AppCompatActivity() {
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
         private const val URL_glide = "https://codeload.github.com/bumptech/glide/zip/master"
         private const val URL_retrofit = "https://codeload.github.com/square/retrofit/zip/master"
-
     }
 
     private fun createChannel(channelId: String, channelName: String) {
@@ -143,16 +148,14 @@ class MainActivity : AppCompatActivity() {
 
             val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
             val status = cursor.getInt(columnIndex)
-
             var statusText = ""
             when (status) {
-                DownloadManager.STATUS_FAILED -> statusText = "STATUS_FAILED"
-                DownloadManager.STATUS_PAUSED -> statusText = "STATUS_PAUSED"
-                DownloadManager.STATUS_PENDING -> statusText = "STATUS_PENDING"
-                DownloadManager.STATUS_RUNNING -> statusText = "STATUS_RUNNING"
-                DownloadManager.STATUS_SUCCESSFUL -> statusText = "STATUS_SUCCESSFUL"
+                DownloadManager.STATUS_FAILED -> statusText = "FAILED"
+                DownloadManager.STATUS_PAUSED -> statusText = "PAUSED"
+                DownloadManager.STATUS_PENDING -> statusText = "PENDING"
+                DownloadManager.STATUS_RUNNING -> statusText = "RUNNING"
+                DownloadManager.STATUS_SUCCESSFUL -> statusText = "SUCCESSFUL"
             }
-
             return statusText
         }
         return "No Status Found"
