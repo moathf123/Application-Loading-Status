@@ -19,8 +19,9 @@ class LoadingButton @JvmOverloads constructor(
     private var heightSize = 0
     private var textColor = 0
     private var backGroundColor = 0
+    private var tempColorHolder = 0
     private var textSize = 0
-    private var text = "Download"
+    private var text = context.getString(R.string.download)
     private var isClicked = false
     private var currentSweepAngle = 0
     private var animator: ValueAnimator? = null
@@ -29,11 +30,13 @@ class LoadingButton @JvmOverloads constructor(
     Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
 
         if (buttonState == ButtonState.Loading) {
-            text = "We Are Loading"
+            text = context.getString(R.string.we_are_loading)
             isClicked = true
+            backGroundColor = context.getColor(R.color.colorPrimaryDark)
             startAnimationCircle()
         } else if (buttonState == ButtonState.Completed) {
-            text = "Download"
+            backGroundColor = tempColorHolder
+            text = context.getString(R.string.download)
             isClicked = false
         }
 
@@ -52,6 +55,7 @@ class LoadingButton @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
             textColor = getColor(R.styleable.LoadingButton_textColor, 0)
             backGroundColor = getColor(R.styleable.LoadingButton_backgroundColor, 0)
+            tempColorHolder = backGroundColor
             textSize = getDimensionPixelSize(R.styleable.LoadingButton_textSize, 0)
         }
     }

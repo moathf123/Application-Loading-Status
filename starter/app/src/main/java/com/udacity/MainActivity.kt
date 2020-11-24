@@ -3,11 +3,11 @@ package com.udacity
 import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -17,7 +17,6 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -26,13 +25,11 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity() {
 
     private var downloadID: Long = 0
-
     private lateinit var notificationManager: NotificationManager
-    private lateinit var pendingIntent: PendingIntent
-    private lateinit var action: NotificationCompat.Action
     private lateinit var toast: Toast
     var radioGroup: RadioGroup? = null
     lateinit var radioButton: RadioButton
+    private lateinit var downloadManager: DownloadManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +51,11 @@ class MainActivity : AppCompatActivity() {
         custom_button.setOnClickListener {
             val intSelectButton: Int = radioGroup!!.checkedRadioButtonId
             if (radioGroup!!.checkedRadioButtonId == -1) {
-                toast = Toast.makeText(applicationContext, "chose a download", Toast.LENGTH_LONG)
+                toast = Toast.makeText(
+                    applicationContext,
+                    getString(R.string.choose_download),
+                    Toast.LENGTH_LONG
+                )
                 toast.show()
             } else {
                 custom_button.setState(ButtonState.Loading)
@@ -74,19 +75,19 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             custom_button.setState(ButtonState.Completed)
+            checkStatus(id!!)
         }
     }
 
-    fun onRadioButtonClicked(view: View) {
+    private fun onRadioButtonClicked(view: View) {
 
-        when (view.getId()) {
+        when (view.id) {
             R.id.radioButton_main_glide -> download(URL_glide)
 
             R.id.radioButton_main_loadApp -> download(URL_loadApp)
 
             R.id.radioButton_main_retrofit -> download(URL_retrofit)
         }
-
     }
 
     private fun download(url: String) {
@@ -97,8 +98,9 @@ class MainActivity : AppCompatActivity() {
                 .setRequiresCharging(false)
                 .setAllowedOverMetered(true)
                 .setAllowedOverRoaming(true)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
 
-        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
     }
@@ -132,4 +134,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkStatus(downloadReference: Long): String {
+        val myDownloadQuery = DownloadManager.Query()
+        myDownloadQuery.setFilterById(downloadReference)
+        val cursor: Cursor = downloadManager.query(myDownloadQuery)
+
+        if (cursor.moveToFirst()) {
+
+            val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+            val status = cursor.getInt(columnIndex)
+
+            var statusText = ""
+            when (status) {
+                DownloadManager.STATUS_FAILED -> statusText = "STATUS_FAILED"
+                DownloadManager.STATUS_PAUSED -> statusText = "STATUS_PAUSED"
+                DownloadManager.STATUS_PENDING -> statusText = "STATUS_PENDING"
+                DownloadManager.STATUS_RUNNING -> statusText = "STATUS_RUNNING"
+                DownloadManager.STATUS_SUCCESSFUL -> statusText = "STATUS_SUCCESSFUL"
+            }
+
+            return statusText
+        }
+        return "No Status Found"
+    }
 }
