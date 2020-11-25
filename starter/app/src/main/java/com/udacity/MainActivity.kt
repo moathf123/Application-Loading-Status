@@ -150,11 +150,11 @@ class MainActivity : AppCompatActivity() {
             val status = cursor.getInt(columnIndex)
             var statusText = ""
             when (status) {
-                DownloadManager.STATUS_FAILED -> statusText = "FAILED"
-                DownloadManager.STATUS_PAUSED -> statusText = "PAUSED"
-                DownloadManager.STATUS_PENDING -> statusText = "PENDING"
-                DownloadManager.STATUS_RUNNING -> statusText = "RUNNING"
-                DownloadManager.STATUS_SUCCESSFUL -> statusText = "SUCCESSFUL"
+                DownloadManager.STATUS_FAILED -> statusText = getString(R.string.failed)
+                DownloadManager.STATUS_PAUSED -> statusText = getString(R.string.paused)
+                DownloadManager.STATUS_PENDING -> statusText = getString(R.string.pending)
+                DownloadManager.STATUS_RUNNING -> statusText = getString(R.string.running)
+                DownloadManager.STATUS_SUCCESSFUL -> statusText = getString(R.string.successful)
             }
             return statusText
         }

@@ -22,4 +22,12 @@
     <string name="we_are_loading">We Are Loading</string>
     <string name="download">Download</string>
     <string name="ok">ok</string>
+    <string name="file_name">File Name:</string>
+    <string name="file_status">File Status:</string>
+    <string name="no_found_text">not found</string>
+    <string name="successful">SUCCESSFUL</string>
+    <string name="running">RUNNING</string>
+    <string name="pending">PENDING</string>
+    <string name="paused">PAUSED</string>
+    <string name="failed">FAILED</string>
 </resources>
