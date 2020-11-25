@@ -10,7 +10,11 @@
             android:layout_marginStart="@dimen/spacing_large"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView_detail_nameLabel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView_detail_nameLabel" />
+            app:layout_constraintStart_toEndOf="@+id/textView_detail_nameLabel">
+            <CustomAttribute
+                app:attributeName="TextColor"
+                app:customColorValue="#D81B60" />
+        </Constraint>
         <Constraint
             android:id="@+id/textView_detail_status"
             android:layout_width="0dp"
@@ -26,7 +30,11 @@
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_medium"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                app:attributeName="TextColor"
+                app:customColorValue="#D81B60" />
+        </Constraint>
         <Constraint
             android:id="@+id/textView_detail_statusLabel"
             android:layout_width="wrap_content"
@@ -34,15 +42,20 @@
             android:layout_marginStart="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_XLarge"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_detail_nameLabel" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_detail_nameLabel">
+            <CustomAttribute
+                app:attributeName="TextColor"
+                app:customColorValue="#D81B60" />
+        </Constraint>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
-        <Constraint android:id="@id/button" />
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="3000"></Transition>
+        app:duration="3000">
+
+    </Transition>
 </MotionScene>

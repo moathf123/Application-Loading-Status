@@ -30,7 +30,6 @@ class DetailActivity : AppCompatActivity() {
         textViewFileName = findViewById(R.id.textView_detail_fileName)
         textViewStatus = findViewById(R.id.textView_detail_status)
         button = findViewById(R.id.button)
-
         val extras = intent.extras
         if (extras != null) {
 

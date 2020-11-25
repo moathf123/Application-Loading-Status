@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/motionLayout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".DetailActivity"
     app:layoutDescription="@xml/content_detail_scene"
@@ -24,14 +25,14 @@
 
     <TextView
         android:id="@+id/textView_detail_fileName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="place holder"
         android:textSize="@dimen/default_text_size" />
 
     <TextView
         android:id="@+id/textView_detail_status"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="place holder"
         android:textSize="@dimen/default_text_size" />
